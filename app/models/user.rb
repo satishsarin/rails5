@@ -28,9 +28,11 @@ class User < ApplicationRecord
   # Class methods
   class << self
     def from_api_key(api_key, renew = false)
+    	self.find_by_auth_token api_key if renew
     end
 
     def cached_api_key(api_key)
+    	self.find_by_auth_token api_key
     end
   end
 

@@ -15,6 +15,12 @@ class Api::V1::UserSessionsController < Devise::SessionsController
     response :unauthorized
   end
   def create
+  	user = User.find_by_email(params[:email])
+    if user&.valid_password?(params[:password])
+      render json: user.as_json(only: [:email]), status: :created  
+    else
+      head :unauthorized
+    end
   end
 
   swagger_api :destroy do
